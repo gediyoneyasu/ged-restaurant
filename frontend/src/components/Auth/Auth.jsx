@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useLanguage } from '../../contexts/LanguageContext';
 import axios from 'axios';
 import './Auth.css';
 
-const API_URL = 'http://localhost:5001/api';
+// DIRECT API URL - NO ENVIRONMENT VARIABLES
+const API_URL = 'https://ged-restaurant.onrender.com/api';
 
 function Auth() {
-  const { language, t } = useLanguage();
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -28,7 +27,7 @@ function Auth() {
 
     try {
       if (isLogin) {
-        // Login
+        // LOGIN
         const response = await axios.post(`${API_URL}/auth/login`, {
           email: formData.email,
           password: formData.password
@@ -43,9 +42,9 @@ function Auth() {
           setError(response.data.message || 'Login failed');
         }
       } else {
-        // Register
+        // REGISTER
         if (formData.password !== formData.confirmPassword) {
-          setError(language === 'en' ? 'Passwords do not match' : 'የይለፍ ቃሎች አይዛመዱም');
+          setError('Passwords do not match');
           setLoading(false);
           return;
         }
@@ -69,11 +68,11 @@ function Auth() {
     } catch (err) {
       console.error('Auth error:', err);
       if (err.response) {
-        setError(err.response.data?.message || 'Something went wrong');
+        setError(err.response.data?.message || 'Server error');
       } else if (err.request) {
-        setError('Cannot connect to server. Make sure backend is running on port 5001');
+        setError('Cannot connect to server. Backend may be down.');
       } else {
-        setError('Something went wrong. Please try again.');
+        setError('Something went wrong');
       }
     } finally {
       setLoading(false);
@@ -81,7 +80,7 @@ function Auth() {
   };
 
   return (
-    <div className="auth-page" key={language}>
+    <div className="auth-page">
       <div className="auth-hero">
         <h1>{isLogin ? 'Welcome Back' : 'Create Account'}</h1>
         <p>{isLogin ? 'Login to continue ordering' : 'Sign up to start ordering'}</p>
@@ -131,15 +130,6 @@ function Auth() {
               {loading ? 'Processing...' : (isLogin ? 'Login' : 'Sign Up')}
             </button>
           </form>
-          
-          <div className="auth-footer">
-            <p>
-              {isLogin ? "Don't have an account?" : "Already have an account?"}
-              <button onClick={() => setIsLogin(!isLogin)}>
-                {isLogin ? 'Sign Up' : 'Login'}
-              </button>
-            </p>
-          </div>
         </div>
       </div>
     </div>
