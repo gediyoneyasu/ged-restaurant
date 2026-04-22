@@ -14,7 +14,6 @@ export const LanguageProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem('gedLanguage', language);
-    // Dispatch event for all components
     window.dispatchEvent(new Event('languageChanged'));
     window.dispatchEvent(new Event('storage'));
   }, [language]);
@@ -48,18 +47,18 @@ export const LanguageProvider = ({ children }) => {
       ordersTitle: 'My Orders', ordersSubtitle: 'Track your orders', activeOrders: 'Active Orders', orderHistory: 'Order History',
       orderId: 'Order ID', total: 'Total', status: 'Status', viewDetails: 'View Details', trackOrder: 'Track Order',
       reorder: 'Reorder', cancelOrder: 'Cancel', noActiveOrders: 'No active orders', noHistoryOrders: 'No order history',
-      orderType: 'Order Type', paymentMethod: 'Payment Method', deliveryAddress: 'Delivery Address',
+      orderType: 'Order Type', deliveryAddress: 'Delivery Address',
       myProfile: 'My Profile', profileSubtitle: 'Manage your account information', personalInfo: 'Personal Information', myOrders: 'My Orders', addresses: 'Addresses', myCart: 'My Cart', myReservations: 'My Reservations',
       edit: 'Edit', save: 'Save', cancel: 'Cancel', delete: 'Delete', default: 'Default', addAddress: 'Add Address', homeAddress: 'Home Address', workAddress: 'Work Address',
       aboutTitle: 'About Us', aboutSubtitle: 'Discover the story behind Ged Restaurant', ourStory: 'Our Story', ourValues: 'Our Values', ourTeam: 'Meet Our Team', visitUs: 'Visit Us Today!', bookTable: 'Book a Table',
       contactTitle: 'Contact Us', contactSubtitle: 'We would love to hear from you', sendMessage: 'Send Us a Message', followUs: 'Follow Us', sending: 'Sending...', selectSubject: 'Select Subject', message: 'Your Message',
       emptyCart: 'Your cart is empty', emptyCartMsg: 'Add some delicious items from our menu', browseMenu: 'Browse Menu', cartTitle: 'Your Cart', cartSubtitle: 'Review your order before checkout',
       item: 'Item', quantity: 'Quantity', clearCart: 'Clear Cart', orderSummary: 'Order Summary', subtotal: 'Subtotal', deliveryFee: 'Delivery Fee', tax: 'Tax (5%)', free: 'Free', proceedToCheckout: 'Proceed to Checkout',
-      checkoutTitle: 'Checkout', checkoutSubtitle: 'Complete your order', shippingInfo: 'Shipping Information', address: 'Address', city: 'City', orderNotes: 'Order Notes (optional)', paymentMethod: 'Payment Method',
+      checkoutTitle: 'Checkout', checkoutSubtitle: 'Complete your order', shippingInfo: 'Shipping Information', address: 'Address', city: 'City', orderNotes: 'Order Notes (optional)',
       cashOnDelivery: 'Cash on Delivery', payOnDelivery: 'Pay when you receive', chapaPayment: 'Chapa Payment', payOnline: 'Pay online with card or Telebirr', placeOrder: 'Place Order', processing: 'Processing...',
       orderSuccess: 'Order Placed Successfully!', orderSuccessMsg: 'Thank you for your order. We will contact you shortly.', viewOrders: 'View My Orders', continueShopping: 'Continue Shopping',
       welcomeBack: 'Welcome Back', createAccount: 'Create Account', loginToOrder: 'Login to continue ordering', signupToOrder: 'Sign up to start ordering', signup: 'Sign Up', fullName: 'Full Name', password: 'Password', confirmPassword: 'Confirm Password', forgotPassword: 'Forgot Password?', noAccount: "Don't have an account?", haveAccount: 'Already have an account?',
-      adminPanel: 'Admin Panel', backToSite: 'Back to Site', recentOrders: 'Recent Orders', noOrders: 'No orders yet', viewAll: 'View All'
+      adminPanel: 'Admin Panel', backToSite: 'Back to Site', recentOrders: 'Recent Orders', noOrders: 'No orders yet'
     },
     am: {
       home: 'መነሻ', menu: 'ምናሌ', reservation: 'ማስያዝ', orders: 'ትእዛዞቼ', about: 'ስለእኛ', contact: 'ያግኙን', login: 'ግባ', logout: 'ውጣ', cart: 'ጋሪ', admin: 'አስተዳዳሪ',
@@ -85,18 +84,18 @@ export const LanguageProvider = ({ children }) => {
       ordersTitle: 'ትእዛዞቼ', ordersSubtitle: 'ትእዛዞችዎን ይከታተሉ', activeOrders: 'ንቁ ትእዛዞች', orderHistory: 'ታሪክ',
       orderId: 'ቁጥር', total: 'ጠቅላላ', status: 'ሁኔታ', viewDetails: 'ዝርዝር', trackOrder: 'ክትትል',
       reorder: 'እንደገና', cancelOrder: 'ሰርዝ', noActiveOrders: 'ምንም ንቁ ትእዛዝ የለም', noHistoryOrders: 'ምንም ታሪክ የለም',
-      orderType: 'አይነት', paymentMethod: 'ክፍያ', deliveryAddress: 'አድራሻ',
+      orderType: 'አይነት', deliveryAddress: 'አድራሻ',
       myProfile: 'መገለጫዬ', profileSubtitle: 'መለያ መረጃዎን ያስተዳድሩ', personalInfo: 'የግል መረጃ', myOrders: 'ትእዛዞቼ', addresses: 'አድራሻዎች', myCart: 'ጋሪዬ', myReservations: 'ማስያዣዎቼ',
       edit: 'አርትዕ', save: 'አስቀምጥ', cancel: 'ሰርዝ', delete: 'ሰርዝ', default: 'ነባሪ', addAddress: 'አድራሻ ጨምር', homeAddress: 'የቤት አድራሻ', workAddress: 'የስራ አድራሻ',
       aboutTitle: 'ስለእኛ', aboutSubtitle: 'የገድ ሬስቶራንት ታሪክ', ourStory: 'ታሪካችን', ourValues: 'እሴቶቻችን', ourTeam: 'ቡድናችን', visitUs: 'ዛሬ ይጎብኙን!', bookTable: 'ጠረጴዛ ያስይዙ',
       contactTitle: 'ያግኙን', contactSubtitle: 'ከእኛ ጋር መገናኘት እንወዳለን', sendMessage: 'መልእክት ላኩልን', followUs: 'ይከተሉን', sending: 'በማስገባት ላይ...', selectSubject: 'ርዕስ ይምረጡ', message: 'መልእክትዎ',
       emptyCart: 'ጋሪዎ ባዶ ነው', emptyCartMsg: 'ከምናሌአችን ጣፋጭ ምግቦችን ይጨምሩ', browseMenu: 'ምናሌ ይመልከቱ', cartTitle: 'ጋሪዎ', cartSubtitle: 'ከማዘዝዎ በፊት ትዕዛዝዎን ይገምግሙ',
       item: 'እቃ', quantity: 'ብዛት', clearCart: 'ጋሪ አጽዳ', orderSummary: 'የትእዛዝ ማጠቃለያ', subtotal: 'ንዑስ ድምር', deliveryFee: 'የማድረስ ክፍያ', tax: 'ግብር (5%)', free: 'ነጻ', proceedToCheckout: 'ወደ መግዣ ቀጥል',
-      checkoutTitle: 'መግዣ', checkoutSubtitle: 'ትዕዛዝዎን ያጠናቅቁ', shippingInfo: 'የማድረሻ መረጃ', address: 'አድራሻ', city: 'ከተማ', orderNotes: 'የትእዛዝ ማስታወሻ (ካለ)', paymentMethod: 'የክፍያ ዘዴ',
+      checkoutTitle: 'መግዣ', checkoutSubtitle: 'ትዕዛዝዎን ያጠናቅቁ', shippingInfo: 'የማድረሻ መረጃ', address: 'አድራሻ', city: 'ከተማ', orderNotes: 'የትእዛዝ ማስታወሻ (ካለ)',
       cashOnDelivery: 'በጥሬ ገንዘብ', payOnDelivery: 'ሲደርስ ይክፈሉ', chapaPayment: 'በቻፓ ክፍያ', payOnline: 'በካርድ ወይም በቴሌብር ይክፈሉ', placeOrder: 'ትእዛዝ አስገባ', processing: 'በሂደት ላይ...',
       orderSuccess: 'ትእዛዝ ተረጋግጧል!', orderSuccessMsg: 'ለትእዛዝዎ እናመሰግናለን። በቅርቡ እናገኝዎታለን።', viewOrders: 'ትእዛዞቼን ይመልከቱ', continueShopping: 'መግዛት ቀጥል',
       welcomeBack: 'እንኳን ደህና መጡ', createAccount: 'አካውንት ይፍጠሩ', loginToOrder: 'ለማዘዝ ይግቡ', signupToOrder: 'ለማዘዝ ይመዝገቡ', signup: 'ይመዝገቡ', fullName: 'ሙሉ ስም', password: 'የይለፍ ቃል', confirmPassword: 'የይለፍ ቃል አረጋግጥ', forgotPassword: 'የይለፍ ቃል ረሳሁ?', noAccount: 'አካውንት የለዎትም?', haveAccount: 'አካውንት አለዎት?',
-      adminPanel: 'አስተዳዳሪ ፓነል', backToSite: 'ወደ ጣቢያ ተመለስ', recentOrders: 'የቅርብ ጊዜ ትእዛዞች', noOrders: 'እስካሁን ምንም ትእዛዝ የለም', viewAll: 'ሁሉንም ይመልከቱ'
+      adminPanel: 'አስተዳዳሪ ፓነል', backToSite: 'ወደ ጣቢያ ተመለስ', recentOrders: 'የቅርብ ጊዜ ትእዛዞች', noOrders: 'እስካሁን ምንም ትእዛዝ የለም'
     }
   };
 

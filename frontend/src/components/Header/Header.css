@@ -198,8 +198,9 @@
   padding: 8px 16px;
   border-radius: 5px;
   text-decoration: none;
-
   transition: all 0.3s;
+  width: 25px;
+  height: 25px;
 }
 
 .user-btn:hover {
@@ -209,6 +210,8 @@
 
 .user-btn i {
   font-size: 18px;
+ margin: -8px;
+  align-items: center;
 }
 
 .logout-icon {
