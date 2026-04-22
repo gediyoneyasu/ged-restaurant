@@ -199,8 +199,8 @@
   border-radius: 5px;
   text-decoration: none;
   transition: all 0.3s;
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
 }
 
 .user-btn:hover {
@@ -210,7 +210,7 @@
 
 .user-btn i {
   font-size: 18px;
- margin: -8px;
+  margin: -8px;
   align-items: center;
 }
 
