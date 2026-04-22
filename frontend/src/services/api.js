@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5001/api';
+// IMPORTANT: Use environment variable, fallback to localhost only for development
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+
+console.log('API_URL:', API_URL); // This will help debug
 
 const api = axios.create({
   baseURL: API_URL,
@@ -27,14 +30,14 @@ export const createCategory = (data) => api.post('/categories', data);
 export const updateCategory = (id, data) => api.put(`/categories/${id}`, data);
 export const deleteCategory = (id) => api.delete(`/categories/${id}`);
 
-// Food APIs - IMPORTANT: Order matters
+// Food APIs
 export const getPublicFoods = (params) => api.get('/foods/public', { params });
 export const getAllFoods = (params) => api.get('/foods', { params });
 export const getPopularFoods = () => api.get('/foods/popular');
 export const getFoodById = (id) => api.get(`/foods/${id}`);
 export const createFood = (data) => api.post('/foods', data);
 export const updateFood = (id, data) => api.put(`/foods/${id}`, data);
-export const toggleFoodActive = (id) => api.put(`/foods/toggle-active/${id}`);  // Correct endpoint
+export const toggleFoodActive = (id) => api.put(`/foods/toggle-active/${id}`);
 export const deleteFood = (id) => api.delete(`/foods/${id}`);
 
 // Order APIs
