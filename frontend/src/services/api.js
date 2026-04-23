@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-// DIRECTLY SET THE PRODUCTION URL - TEMPORARY FIX
-const API_URL = 'https://ged-restaurant.onrender.com/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://ged-restaurant.onrender.com/api';
 
 console.log('🔧 API_URL is set to:', API_URL);
 
@@ -31,6 +30,7 @@ export const updateFood = (id, data) => api.put(`/foods/${id}`, data);
 export const toggleFoodActive = (id) => api.put(`/foods/toggle-active/${id}`);
 export const deleteFood = (id) => api.delete(`/foods/${id}`);
 export const createOrder = (data) => api.post('/orders', data);
+export const verifyChapaPayment = (data) => api.post('/orders/chapa/verify', data);
 export const getUserOrders = () => api.get('/orders/my-orders');
 export const getAllOrders = () => api.get('/orders/all');
 export const updateOrderStatus = (id, status) => api.put(`/orders/${id}/status`, { status });

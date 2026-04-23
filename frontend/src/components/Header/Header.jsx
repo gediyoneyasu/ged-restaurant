@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLanguage } from '../../contexts/LanguageContext';
 import './Header.css';
 
 function Header() {
@@ -9,7 +10,7 @@ function Header() {
   const [userRole, setUserRole] = useState('');
   const [showLangDropdown, setShowLangDropdown] = useState(false);
   const [cartCount, setCartCount] = useState(0);
-  const [language, setLanguage] = useState(localStorage.getItem('gedLanguage') || 'en');
+  const { language, changeLanguage } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -41,19 +42,6 @@ function Header() {
     return () => window.removeEventListener('cartUpdated', loadCartCount);
   }, [location.pathname]);
 
-  useEffect(() => {
-    const handleLanguageChange = () => {
-      const newLang = localStorage.getItem('gedLanguage') || 'en';
-      setLanguage(newLang);
-    };
-    window.addEventListener('languageChanged', handleLanguageChange);
-    window.addEventListener('storage', handleLanguageChange);
-    return () => {
-      window.removeEventListener('languageChanged', handleLanguageChange);
-      window.removeEventListener('storage', handleLanguageChange);
-    };
-  }, []);
-
   const toggleMenu = () => setShowMenu(!showMenu);
   const closeMenu = () => setShowMenu(false);
 
@@ -66,9 +54,7 @@ function Header() {
   };
 
   const selectLanguage = (lang) => {
-    setLanguage(lang);
-    localStorage.setItem('gedLanguage', lang);
-    window.dispatchEvent(new Event('languageChanged'));
+    changeLanguage(lang);
     setShowLangDropdown(false);
   };
 

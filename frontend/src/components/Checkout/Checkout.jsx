@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { createOrder, verifyChapaPayment } from '../../services/api';
 import './Checkout.css';
 
 function Checkout() {
@@ -10,6 +11,7 @@ function Checkout() {
   const [cartTotal, setCartTotal] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('cash');
   const [renderKey, setRenderKey] = useState(0);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', address: '', city: '', notes: '' });
 
@@ -26,20 +28,91 @@ function Checkout() {
     } else { navigate('/cart'); }
   }, [language]);
 
+  useEffect(() => {
+    const verifyFromChapa = async () => {
+      const params = new URLSearchParams(window.location.search);
+      const paymentProvider = params.get('payment');
+      const orderId = params.get('orderId');
+      const txRef = params.get('tx_ref');
+
+      if (paymentProvider !== 'chapa' || !orderId || !txRef) return;
+
+      try {
+        setLoading(true);
+        const response = await verifyChapaPayment({ orderId, txRef });
+        if (response.data?.success) {
+          localStorage.removeItem('gedCart');
+          window.dispatchEvent(new Event('cartUpdated'));
+          setSubmitted(true);
+        } else {
+          alert(language === 'en' ? 'Payment verification failed.' : 'ክፍያ ማረጋገጥ አልተሳካም።');
+        }
+      } catch (error) {
+        alert(language === 'en' ? 'Could not verify payment.' : 'ክፍያን ማረጋገጥ አልተቻለም።');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    verifyFromChapa();
+  }, [language]);
+
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
   const deliveryFee = cartTotal > 200 ? 0 : 50;
   const tax = cartTotal * 0.05;
   const grandTotal = cartTotal + deliveryFee + tax;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
+
+    const token = localStorage.getItem('gedToken');
+    if (!token) {
+      setLoading(false);
+      alert(language === 'en' ? 'Please login before checkout.' : 'እባክዎ ክፍያ ከመፈጸምዎ በፊት ይግቡ።');
+      navigate('/auth');
+      return;
+    }
+
+    try {
+      const orderPayload = {
+        items: cartItems.map((item) => ({
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price
+        })),
+        totalAmount: cartTotal,
+        deliveryFee,
+        tax,
+        grandTotal,
+        orderType: 'delivery',
+        paymentMethod: selectedPaymentMethod,
+        deliveryAddress: `${formData.address}, ${formData.city}`,
+        customerName: formData.name,
+        customerPhone: formData.phone,
+        customerEmail: formData.email
+      };
+
+      const response = await createOrder(orderPayload);
+      if (!response.data?.success) {
+        throw new Error('Order failed');
+      }
+
+      if (selectedPaymentMethod === 'chapa') {
+        const checkoutUrl = response.data?.payment?.checkoutUrl;
+        if (!checkoutUrl) throw new Error('Missing Chapa checkout URL');
+        window.location.href = checkoutUrl;
+        return;
+      }
+
       localStorage.removeItem('gedCart');
       setSubmitted(true);
-      setLoading(false);
       window.dispatchEvent(new Event('cartUpdated'));
-    }, 1500);
+    } catch (error) {
+      alert(language === 'en' ? 'Checkout failed. Please try again.' : 'ክፍያ አልተሳካም። እባክዎ እንደገና ይሞክሩ።');
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (submitted) {
@@ -70,8 +143,8 @@ function Checkout() {
           </div>
           <div className="form-section"><h3>{t('paymentMethod')}</h3>
             <div className="payment-options">
-              <label className="payment-option"><input type="radio" name="payment" defaultChecked /><i className="ri-cash-line"></i><div><strong>{t('cashOnDelivery')}</strong><small>{t('payOnDelivery')}</small></div></label>
-              <label className="payment-option"><input type="radio" name="payment" /><i className="ri-bank-card-line"></i><div><strong>{t('chapaPayment')}</strong><small>{t('payOnline')}</small></div></label>
+              <label className="payment-option"><input type="radio" name="payment" checked={selectedPaymentMethod === 'cash'} onChange={() => setSelectedPaymentMethod('cash')} /><i className="ri-cash-line"></i><div><strong>{t('cashOnDelivery')}</strong><small>{t('payOnDelivery')}</small></div></label>
+              <label className="payment-option"><input type="radio" name="payment" checked={selectedPaymentMethod === 'chapa'} onChange={() => setSelectedPaymentMethod('chapa')} /><i className="ri-bank-card-line"></i><div><strong>{t('chapaPayment')}</strong><small>{t('payOnline')}</small></div></label>
             </div>
           </div>
           <button type="submit" className="place-order-btn" disabled={loading}>{loading ? t('processing') : `${t('placeOrder')} - ${t('price')} ${grandTotal.toFixed(2)}`}</button>

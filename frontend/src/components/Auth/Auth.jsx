@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Auth.css';
 
-// DIRECT API URL - NO ENVIRONMENT VARIABLES
-const API_URL = 'https://ged-restaurant.onrender.com/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://ged-restaurant.onrender.com/api';
 
 function Auth() {
   const navigate = useNavigate();
